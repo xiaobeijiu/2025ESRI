@@ -1,0 +1,127 @@
+/* 用户信息和退出按钮样式 */
+.user-info {
+  position: absolute;
+  right: 50px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.user-info span {
+  margin-right: 10px;
+}
+
+.logout-btn {
+  padding: 2px 8px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #3a80d2;
+}
+
+/* 区域选择器样式 */
+#districtSelector {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 10px 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  text-align: center;
+}
+
+#districtSelector h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+#districtSelector ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+}
+
+#districtSelector li {
+  padding: 8px 15px;
+  margin: 0 5px;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  color: #333;
+  user-select: none;
+  white-space: nowrap;
+  min-width: 60px;
+  text-align: center;
+}
+
+#districtSelector li:hover {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+#districtSelector li.active {
+  background-color: #4f46e5;
+  color: white;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+  #districtSelector {
+    padding: 5px 10px;
+  }
+
+  #districtSelector h3 {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  #districtSelector li {
+    padding: 6px 10px;
+    margin: 0 3px;
+    font-size: 12px;
+    min-width: 50px;
+  }
+}
+
+/* 首页图标样式 */
+.home-icon {
+
+    position: absolute;
+    line-height: 6vh;
+    left: 2%;
+}
+#layerSwitcher {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+.layer-btn {
+  margin: 0 6px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.layer-btn.active {
+  background: #4287f5;
+  color: #fff;
+  border-color: #4287f5;
+}

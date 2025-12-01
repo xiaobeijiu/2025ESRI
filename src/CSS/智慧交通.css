@@ -1,0 +1,650 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #e6eaf7;
+  overflow: hidden;
+  background-image: url('../asset/images/背景.jpg'); /* 换成你的背景图路径 */
+  background-size: cover;     /* 背景铺满，不留空白 */
+  background-position: center;/* 居中显示 */
+  background-repeat: no-repeat;
+}
+
+/* 去掉地图视图的边框 */
+.esri-view-surface:focus::after {
+  outline: none !important;
+  border: none !important;
+}
+
+/* 地图视图样式 */
+#container {
+  height: 96vh;
+  top: 2vh;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+#viewDiv {
+  height: 90vh;
+  width: 100%;
+}
+
+.head-bar {
+  height: 6vh;
+  width: 100%;
+  text-align: center;
+  line-height: 6vh;
+  position: relative;
+  user-select: none;
+}
+
+.title {
+  height: 6vh;
+  max-width: 70%;
+  font-size: 20px;
+  text-align: center;
+  color: #333;
+  line-height: 6vh;
+  font-family: "SimSun", "Times New Roman";
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.home-icon {
+  position: absolute;
+  line-height: 6vh;
+  left: 2%;
+}
+
+.layui-icon {
+  position: absolute;
+  line-height: 6vh;
+  right: 2%;
+  transition: transform 0.3s ease;
+}
+
+.mirror {
+  transform: scaleX(-1);
+}
+
+.navigation {
+  width: 0;
+  height: 68vh;
+  padding-top: 5px;
+  background: rgba(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.navigation.show {
+  width: 40px;
+}
+
+.navi-item {
+  width: 20px;
+  height: 96px;
+  line-height: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  cursor: pointer;
+  color: #8a8a8a;
+  transition: color 0.3s ease-in-out, border 0.3s ease-in-out;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  user-select: none;
+  position: relative;
+}
+
+.navi-item:hover {
+  color: #667eea;
+  border: 1px solid #667eea;
+}
+
+.navi-item:not(:last-child)::before {
+  content: "—";
+  position: absolute;
+  bottom: -15px;
+  color: #8a8a8a;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.navi-item img {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 4px;
+}
+.navi-item br {
+  line-height: 1.2;
+}
+
+/* 四周DIV的通用样式 */
+.side-div {
+  position: absolute;
+  width: 23%;
+  height: 47vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* 左上DIV */
+.top-left {
+  left: 1%;
+  top: 2vh;
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+/* 左下DIV */
+.bottom-left {
+  left: 1%;
+  top: 51vh;
+  animation: slideInFromLeft 0.8s ease-out 0.2s both;
+}
+
+/* 右上DIV */
+.top-right {
+  right: 1%;
+  top: 2vh;
+  animation: slideInFromRight 0.8s ease-out 0.1s both;
+}
+
+/* 右下DIV */
+.bottom-right {
+  right: 1%;
+  top: 51vh;
+  animation: slideInFromRight 0.8s ease-out 0.3s both;
+}
+
+/* 图表容器样式 */
+.side-div > div {
+  width: 100%;
+  height: 100%;
+  /* border-radius: 15px; */
+  position: relative;
+}
+
+/* 动画效果 */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%) rotate(-10deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%) rotate(10deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 地图容器动画 */
+#container {
+  animation: fadeInScale 1s ease-out 0.5s both;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .side-div {
+    width: 22%;
+    height: 45%;
+  }
+
+  #viewDiv {
+    width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .side-div {
+    width: 45%;
+    height: 40%;
+  }
+
+  .top-left,
+  .top-right {
+    top: 2%;
+  }
+
+  .bottom-left,
+  .bottom-right {
+    top: 58%;
+  }
+
+  #viewDiv {
+    width: 40%;
+  }
+}
+
+/* 加载动画 */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeOut 2s ease-out 3s forwards;
+}
+
+.loading::after {
+  content: "加载中...";
+  color: white;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 图表内容样式 */
+.chart-container {
+  margin-top: 1%;
+  width: 100%;
+  height: 99%;
+}
+
+/* 信息面板样式美化 - 蓝色风格 */
+#infoDiv {
+  width: 20vw;
+  height: 100vh;
+  box-sizing: border-box;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 查询面板样式 - 蓝色风格 */
+#QueryPanel {
+  /* height: 50%; */
+  border-bottom: 2px solid #e3f2fd;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.08);
+  position: relative;
+  transition: all 0.3s ease;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+}
+
+/* 聚类面板样式 - 蓝色风格 */
+#ClusterPanel {
+  overflow-y: auto;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
+  transition: all 0.3s ease;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+}
+
+/* 添加响应式设计优化 - 蓝色风格 */
+@media (max-width: 768px) {
+  #container {
+    flex-direction: column;
+  }
+
+  #viewDiv,
+  #infoDiv {
+    width: 100vw;
+    height: 45vh;
+  }
+
+  #infoDiv {
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    border-left: none;
+    border-top: 3px solid #2196f3;
+  }
+
+  .panel-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* 控制面板样式 */
+#controlPanel {
+  padding: 15px;
+  /* margin: 8px 10px; */
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+#controlPanel:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#controlPanel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #0079c1;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.control-item {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border 0.3s;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #0079c1;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 121, 193, 0.2);
+}
+
+select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+}
+
+.time-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.time-input {
+  flex: 1;
+  min-width: 50px;
+  position: relative;
+}
+
+.time-input input {
+  width: 100%;
+  text-align: center;
+}
+
+small {
+  display: block;
+  color: #666;
+  font-size: 12px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button {
+  background-color: #0079c1;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  /* margin-top: 15px; */
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.1s;
+  height: 38px;
+  margin-top: 8px 8px;
+}
+
+button:hover {
+  background-color: #005e95;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* 图例样式 */
+.legend {
+  /* width: 100%; */
+  padding: 15px 15px;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  /* margin: 10px 10px; */
+  box-sizing: border-box;
+}
+
+.legend h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #0079c1;
+  font-size: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 3px;
+}
+
+#routePanel {
+  margin: 10px 10px;
+  padding: 10px 10px;
+}
+
+/* 路径分析面板特定样式 */
+#ClusterPanel .control-item {
+  margin-bottom: 15px;
+  background-color: rgba(240, 248, 255, 0.6);
+  padding: 10px;
+  border-radius: 6px;
+  /* border-left: 3px solid #2196F3; */
+}
+
+#ClusterPanel label {
+  color: #1565c0;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+#ClusterPanel input[type="text"],
+#ClusterPanel select {
+  border: 1px solid #bbdefb;
+  background-color: rgba(255, 255, 255, 0.9);
+  height: 38px;
+  /* 设置与按钮相同的高度 */
+}
+
+#ClusterPanel input[type="text"]:focus,
+#ClusterPanel select:focus {
+  /* border-color: #2196F3; */
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+}
+
+#ClusterPanel button {
+  width: 20%;
+  height: 38px;
+}
+
+#ClusterPanel button:hover {
+  background-color: #1976d2;
+}
+
+#calculateRouteBtn {
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+#clearRouteBtn {
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.1s;
+}
+.help-icon {
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  float: right;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  top: 100%; /* 图标正下方 */
+  right: 0;
+  width: 250px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  font-size: 12px;
+  color: #333;
+  z-index: 10;
+  float: right;
+}
+
+.help-icon:hover .tooltip-content {
+  display: block;
+}
+
+/* 分系统虚化背景设置 */
+.wrap {
+  min-height: 100dvh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+/* .wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('../../asset/images/背景.jpg') no-repeat center center;
+  background-size: cover;
+  filter: blur(8px);
+  transform: scale(1.1);
+  z-index: 0;
+} */
+
+/* 确保前景内容在上层 */
+/* .wrap > * {
+  position: relative;
+  z-index: 1;
+} */
